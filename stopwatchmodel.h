@@ -12,8 +12,9 @@ public:
     explicit StopwatchModel(QObject *parent = 0);
     QTime clock;
     QTimer* timer;
+    int elapsedTime;
 signals:
-    void currentTime(int time);
+    void currentTime(QString min, QString sec, QString hun);
 public slots:
     void startClock();
     void restartClock();

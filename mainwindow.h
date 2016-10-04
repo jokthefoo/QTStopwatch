@@ -27,7 +27,7 @@ private slots:
 
     void on_resetButton_clicked();
 
-    void updateDisplay(int time);
+    void updateDisplay(QString min, QString sec, QString hun);
 private:
     Ui::MainWindow *ui;
 };

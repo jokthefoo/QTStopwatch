@@ -6,11 +6,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    // Initialize display
     this->setWindowTitle("Stopwatch");
     ui->minDisplay->display("00");
     ui->secDisplay->display("00");
     ui->hunDisplay->display("00");
-    connect(&stopwatchM, SIGNAL(currentTime(int)), this, SLOT(updateDisplay(int)));
+
+    // Connect signals and slots between model and view
+    connect(&stopwatchM, SIGNAL(currentTime(QString,QString,QString)), this, SLOT(updateDisplay(QString,QString,QString)));
     connect(this, SIGNAL(startClicked()), &stopwatchM, SLOT(startClock()));
     connect(this, SIGNAL(pauseClicked()), &stopwatchM, SLOT(pauseClock()));
     connect(this, SIGNAL(restartClicked()), &stopwatchM, SLOT(restartClock()));
@@ -22,35 +26,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::updateDisplay(int time)
+void MainWindow::updateDisplay(QString min, QString sec, QString hun)
 {
-    int min = (time / 60000) % 60;
-    int sec = (time / 1000) % 60;
-    int hun = (time / 10) % 100;
-    if(min < 10)
-    {
-        QString s = "0"+QString::number(min);
-        ui->minDisplay->display(s);
-    }else
-    {
-        ui->minDisplay->display(min);
-    }
-    if(sec < 10)
-    {
-        QString s = "0"+QString::number(sec);
-        ui->secDisplay->display(s);
-    }else
-    {
-        ui->secDisplay->display(sec);
-    }
-    if(hun < 10)
-    {
-        QString s = "0"+QString::number(hun);
-        ui->hunDisplay->display(s);
-    }else
-    {
-        ui->hunDisplay->display(hun);
-    }
+    ui->minDisplay->display(min);
+    ui->secDisplay->display(sec);
+    ui->hunDisplay->display(hun);
 }
 
 void MainWindow::on_startButton_clicked()
